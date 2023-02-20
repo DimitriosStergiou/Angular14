@@ -1,0 +1,248 @@
+<div class="text-end">
+  <button type="button" (click)="logout()" *ngIf="authService.isLoggedIn" class="btn btn-warning">Logout</button>
+</div>
+Atos Employees
+
+
+<div class="container-fluid">
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Employee Management System</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#addEmployee" type="submit">Add
+          Employee</button>
+      </div>
+      
+    </div>
+  </nav>
+  <input 
+      class="form-control" 
+      type="text" name="DEPARTMENT_ID" 
+      [(ngModel)]="DEPARTMENT_ID"
+      (ngModelChange)="Search()" 
+      placeholder="Enter Department Id">
+
+
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Department id</th>
+        <th scope="col">Employee Ext Number</th>
+        <th scope="col">FirstName</th>
+        <th scope="col">LastName</th>
+        <th scope="col">MiddleName</th>
+        <th scope="col">FullName</th>
+        <th scope="col">JobTitle</th>
+        <th scope="col">JobLevel</th>
+        <th scope="col">Email</th>
+        <th scope="col">Manager Ext Number</th>
+        <th scope="col">Hire Date</th>
+        <th scope="col">Manager Flag</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let employee of empList">
+        <td>{{employee.DEPARTMENT_ID}}</td>
+        <td><a routerLink="/user/{{employee.EMPLOYEE_ID}}/skills">{{employee.EMPLOYEE_EXT_NUMBER}}</a></td>
+        <td>{{employee.FIRST_NAME}}</td>
+        <td>{{employee.LAST_NAME}}</td>
+        <td>{{employee.MIDDLE_NAME}}</td>
+        <td>{{employee.FULL_NAME}}</td>
+        <td>{{employee.JOB_TITLE}}</td>
+        <td>{{employee.JOB_LEVEL}}</td>
+        <td>{{employee.EMAIL}}</td>
+        <td>{{employee.MANAGER_EXT_NUMBER}}</td>
+        <td>{{employee.HIRE_DT}}</td>
+        <td>{{employee.MANAGER_FLAG}}</td>
+        <td>
+          <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal"
+            data-bs-target="#editEmployee" (click)="editEmployee(employee)">Edit</button>
+          <button type="button" class="btn btn-outline-danger" (click)="deleteEmployee(employee)">Delete</button>
+        </td>
+
+      </tr>
+
+    </tbody>
+  </table>
+
+
+  <!-- Add employee modal -->
+  <div class="modal fade" id="addEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add new Employee</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <form [formGroup]="empDetail">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Department id </label>
+              <input type="text" formControlName="DEPARTMENT_ID" class="form-control" id="DEPARTMENT_ID"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Employee Ext Number </label>
+              <input type="text" formControlName="EMPLOYEE_EXT_NUMBER" class="form-control" id="EMPLOYEE_EXT_NUMBER"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Firstname </label>
+              <input type="email" formControlName="FIRST_NAME" class="form-control" id="FIRST_NAME"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Lastname </label>
+              <input type="text" formControlName="LAST_NAME" class="form-control" id="LAST_NAME"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Middlename </label>
+              <input type="text" formControlName="MIDDLE_NAME" class="form-control" id="MIDDLE_NAME"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Fullname </label>
+              <input type="text" formControlName="FULL_NAME" class="form-control" id="FULL_NAME"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Job Title </label>
+              <input type="email" formControlName="JOB_TITLE" class="form-control" id="JOB_TITLE"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Job Level </label>
+              <input type="text" formControlName="JOB_LEVEL" class="form-control" id="JOB_LEVEL"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">EMAIL </label>
+              <input type="text" formControlName="EMAIL" class="form-control" id="EMAIL" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Manager Ext Number </label>
+              <input type="text" formControlName="MANAGER_EXT_NUMBER" class="form-control" id="MANAGER_EXT_NUMBER"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Hire Date </label>
+              <input type="email" formControlName="HIRE_DT" class="form-control" id="HIRE_DT"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Manager flag </label>
+              <input type="text" formControlName="MANAGER_FLAG" class="form-control" id="MANAGER_FLAG"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addEmployee()">Add
+                employee</button>
+            </div>
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Edit employee modal -->
+  <div class="modal fade" id="editEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit employee details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <form [formGroup]="empDetail" action="/updateemp/" method="PUT">
+            <div class="mb-3" *ngIf="display">
+              <label for="exampleInputEmail1" class="form-label">Leave it as it is</label>
+              <input type="text" formControlName="EMPLOYEE_ID" class="form-control" id="EMPLOYEE_ID"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Department id </label>
+              <input type="text" formControlName="DEPARTMENT_ID" class="form-control" id="DEPARTMENT_ID"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Employee Ext Number </label>
+              <input type="text" formControlName="EMPLOYEE_EXT_NUMBER" class="form-control" id="EMPLOYEE_EXT_NUMBER"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Firstname </label>
+              <input type="email" formControlName="FIRST_NAME" class="form-control" id="FIRST_NAME"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Lastname </label>
+              <input type="text" formControlName="LAST_NAME" class="form-control" id="LAST_NAME"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Middlename </label>
+              <input type="text" formControlName="MIDDLE_NAME" class="form-control" id="MIDDLE_NAME"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Fullname </label>
+              <input type="text" formControlName="FULL_NAME" class="form-control" id="FULL_NAME"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Job Title </label>
+              <input type="email" formControlName="JOB_TITLE" class="form-control" id="JOB_TITLE"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Job Level </label>
+              <input type="text" formControlName="JOB_LEVEL" class="form-control" id="JOB_LEVEL"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">EMAIL </label>
+              <input type="text" formControlName="EMAIL" class="form-control" id="EMAIL" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Manager Ext Number </label>
+              <input type="text" formControlName="MANAGER_EXT_NUMBER" class="form-control" id="MANAGER_EXT_NUMBER"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Hire Date </label>
+              <input type="email" formControlName="HIRE_DT" class="form-control" id="HIRE_DT"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Manager flag </label>
+              <input type="text" formControlName="MANAGER_FLAG" class="form-control" id="MANAGER_FLAG"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-outline-success" (click)="updateEmployee()"
+                data-bs-dismiss="modal">Update </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
